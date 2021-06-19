@@ -1,7 +1,4 @@
 # scoreboard app
-
-# Scoring a game of Yaniv
-
 ## Goal
 Create an App that keeps score of a game of Yaniv
  

@@ -1,0 +1,27 @@
+{
+  "name": "scoreboard",
+  "version": "1.0.0",
+  "description": "Scoring a game of Yaniv",
+  "main": "score.js",
+  "scripts": {
+    "test": "jest --watchAll --noStackTrace",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/annamccormack/scoreboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/annamccormack/scoreboard/issues"
+  },
+  "homepage": "https://github.com/annamccormack/scoreboard#readme",
+  "dependencies": {
+    "jest": "^27.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.29.0"
+  }
+}
