@@ -64,15 +64,15 @@ function scoreRound(players) {
 }
 
 function indexesOfLowest(totals, players) {
-  let indexes =[]
+  let indexes = []
   let lowest = Math.min.apply(Math, totals)
   totals.forEach((item, idx) => {
-    if(item === lowest) {
+    if (item === lowest) {
       players[idx].lowest = true
       indexes.push(idx)
     }
   })
-  
+
   return indexes;
 }
 
@@ -91,20 +91,20 @@ function scoreLowest(players, totals) {
         totals.splice(i, 1, 0)
       }
     } else {
-    // if player didnt call yaniv & is lowest, total = 0
+      // if player didnt call yaniv & is lowest, total = 0
       if (players[i].lowest) {
         players[i].roundTotal = 0
         totals.splice(i, 1, 0)
       }
     }
-  }  
-  return totals 
+  }
+  return totals
 }
 
 
 function scoreGame(players) {
   let rounds = 0
-  while (gameEnd(players) == false){
+  while (gameEnd(players) == false) {
     scoreRound(players)
     resetRound(players)
     rounds++
@@ -117,15 +117,15 @@ function scoreGame(players) {
   return winner
 }
 
- // before each round reset calledYaniv, lowest & cards & roundTotal 
-function resetRound (players) {
+// before each round reset calledYaniv, lowest & cards & roundTotal 
+function resetRound(players) {
   for (let i = 0; i < players.length; i++) {
     players[i].calledYaniv = false
     players[i].lowest = false
     players[i].cards = []
     players[i].roundTotal = 0
-}
-return players
+  }
+  return players
 }
 
 function gameEnd(players) {
@@ -138,7 +138,7 @@ function gameEnd(players) {
   }
 }
 
-function determineWinner (finalScores, players) {
+function determineWinner(finalScores, players) {
   let lowest = Math.min.apply(Math, finalScores)
   const winner = players.find(player => player.gameTotal === lowest)
   return winner.name
