@@ -7,7 +7,8 @@ module.exports = {
   scoreRound,
   scoreGame,
   gameEnd,
-  resetRound
+  resetRound,
+  determineWinner
 }
 
 function calledYaniv(player) {
@@ -107,8 +108,8 @@ function scoreGame(players) {
   players.forEach(player => {
     finalScores.push(player.gameTotal)
   })
-  // find each players gameTotal
-  return finalScores
+  const winner = determineWinner(finalScores, players)
+  return winner
 }
 
  // before each round reset calledYaniv, lowest & cards & roundTotal 
@@ -131,12 +132,10 @@ function gameEnd(players) {
     return false
   }
 }
-// TODO:
-// function determineWinner () {
 
-// }
-
-
-
-
+function determineWinner (finalScores, players) {
+  let lowest = Math.min.apply(Math, finalScores)
+  const winner = players.find(player => player.gameTotal === lowest)
+  return winner.name
+}
 

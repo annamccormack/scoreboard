@@ -8,7 +8,8 @@ const {
   scoreLowest, 
   scoreGame,
   resetRound,
-  gameEnd
+  gameEnd,
+  determineWinner
  } = require('./score')
 
 
@@ -226,7 +227,7 @@ test('scoreLowest', () => {
 })
 
 // scoreGame
-test('scoreGame returns players final scores', () => {
+test('scoreGame runs game and returns the name of the winner', () => {
   //Arrange
   let players = [
     {
@@ -248,7 +249,7 @@ test('scoreGame returns players final scores', () => {
   ]
   //Act
   const actual = scoreGame(players)
-  const expected = [120, 90]
+  const expected = 'Hilary'
   //Asert
   expect(actual).toStrictEqual(expected)
 })
@@ -324,4 +325,33 @@ test('gameEnd returns true when a players gameTotal higher than 100', () => {
   const expected = true 
   //Asert
   expect(actual).toBe(expected)
+})
+
+// determineWinner
+test('determineWinner returns the name winner based on final gameTotals', () => {
+  //Arrange
+  const finalScores = [50, 112]
+  let players = [
+    {
+      name: 'Adam',
+      cards: ['A'],
+      roundTotal: 1,
+      gameTotal: 50,
+      calledYaniv: true,
+      lowest: true
+    },
+    {
+      name: 'Eve',
+      cards: [5, 3],
+      roundTotal: 8,
+      gameTotal: 112,
+      calledYaniv: false,
+      lowest: false
+    }
+  ]
+  //Act
+  const actual = determineWinner(finalScores, players)
+  const expected = 'Adam'
+  //Asert
+  expect(actual).toStrictEqual(expected)
 })
