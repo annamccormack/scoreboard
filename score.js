@@ -6,7 +6,8 @@ module.exports = {
   indexesOfLowest,
   scoreRound,
   scoreGame,
-  gameEnd
+  gameEnd,
+  resetRound
 }
 
 function calledYaniv(player) {
@@ -42,10 +43,17 @@ function scorePlayers(players) {
   }
   return totals
 }
+// TODO: update gameTotal when:
+// players gametotal === 50, update gameTotal = 25
+// players gametotal === 100, update gameTotal = 50
 
 function scoreRound(players) {
   let totals = scorePlayers(players)
   totals = scoreLowest(players, totals)
+  for (let i = 0; i < players.length; i++) {
+    // update gameTotal of each player
+    players[i].gameTotal += players[i].roundTotal
+  }
   return totals
 }
 
@@ -88,44 +96,47 @@ function scoreLowest(players, totals) {
 }
 
 
-function scoreGame() {
+function scoreGame(players) {
+  let rounds = 0
+  while (gameEnd(players) == false){
+    scoreRound(players)
+    resetRound(players)
+    rounds++
+  }
+  let finalScores = []
+  players.forEach(player => {
+    finalScores.push(player.gameTotal)
+  })
   // find each players gameTotal
+  return finalScores
 }
 
-function gameEnd() {
+ // before each round reset calledYaniv, lowest & cards & roundTotal 
+function resetRound (players) {
+  for (let i = 0; i < players.length; i++) {
+    players[i].calledYaniv = false
+    players[i].lowest = false
+    players[i].cards = []
+    players[i].roundTotal = 0
+}
+return players
+}
+
+function gameEnd(players) {
   // if any player goes over 100 points, game ends 
+  let overHundred = players.find(player => player.gameTotal > 100)
+  if (overHundred !== undefined) {
+    return true
+  } else {
+    return false
+  }
 }
+// TODO:
+// function determineWinner () {
+
+// }
 
 
-// const players = [
-//   {
-//     player: 'anna',
-//     cards: [],
-//     roundTotal: 0,
-//     gameTotal: 0,
-//     calledYaniv: false
-//   }
-// ]
-// roundTotal and calledYaniv are reset each round
 
-
-// 1. score a round (one person)
-// 2. score a round (all players)
-// 3. keep track of players total score each round
-// 4. determine winner 
-
-// functions: 
-// find each players roundTotal
-// who calledYaniv ?
-// find the player with the lowest roundTotal
-// does the person who called Yaniv have the lowest roundTotal ? ...
-// add each players roundTotal to gameTotal
-
-// points
-// Joker: 10 Ace: 1 Numerical Card = 2-10 Face card = 10
-// If you win the round the joker = 0 pts
-// But if you loose the round the joker = 25 pts
-// if a players game total equals exactly 50, their game total goes back to 25
-// if a players game total equals exactly 100, their game total goes back to 50
 
 

@@ -1,5 +1,15 @@
 const { test, expect } = require('@jest/globals')
-const { scorePlayer, scorePlayers, calledYaniv, scoreRound, indexesOfLowest, scoreLowest } = require('./score')
+const { 
+  scorePlayer, 
+  scorePlayers, 
+  calledYaniv, 
+  scoreRound, 
+  indexesOfLowest, 
+  scoreLowest, 
+  scoreGame,
+  resetRound,
+  gameEnd
+ } = require('./score')
 
 
 // scorePlayer 
@@ -213,4 +223,105 @@ test('scoreLowest', () => {
   const expected = [0, 8, 30]
   //Asert
   expect(actual).toStrictEqual(expected)
+})
+
+// scoreGame
+test('scoreGame returns players final scores', () => {
+  //Arrange
+  let players = [
+    {
+      name: 'Harry',
+      cards: ['A'],
+      roundTotal: 1,
+      gameTotal: 120,
+      calledYaniv: true,
+      lowest: true
+    },
+    {
+      name: 'Hilary',
+      cards: [5, 3],
+      roundTotal: 8,
+      gameTotal: 90,
+      calledYaniv: false,
+      lowest: false
+    },
+  ]
+  //Act
+  const actual = scoreGame(players)
+  const expected = [120, 90]
+  //Asert
+  expect(actual).toStrictEqual(expected)
+})
+
+// resetRound
+test('resetRound reset calledYaniv, lowest & cards & roundTotal after each round', () => {
+  //Arrange
+  let players = [
+    {
+      name: 'Adam',
+      cards: ['A'],
+      roundTotal: 1,
+      gameTotal: 25,
+      calledYaniv: true,
+      lowest: true
+    },
+    {
+      name: 'Eve',
+      cards: [5, 3],
+      roundTotal: 8,
+      gameTotal: 55,
+      calledYaniv: false,
+      lowest: false
+    },
+  ]
+  //Act
+  const actual = resetRound(players)
+  const expected = [
+    {
+      name: 'Adam',
+      cards: [],
+      roundTotal: 0,
+      gameTotal: 25,
+      calledYaniv: false,
+      lowest: false
+    },
+    {
+      name: 'Eve',
+      cards: [],
+      roundTotal: 0,
+      gameTotal: 55,
+      calledYaniv: false,
+      lowest: false
+    },
+  ]
+  //Asert
+  expect(actual).toStrictEqual(expected)
+})
+
+//   gameEnd
+test('gameEnd returns true when a players gameTotal higher than 100', () => {
+  //Arrange
+  let players = [
+    {
+      name: 'Gerald',
+      cards: [5, 3],
+      roundTotal: 8,
+      gameTotal: 101,
+      calledYaniv: false,
+      lowest: false
+    },
+    {
+      name: 'Ginni',
+      cards: ['A'],
+      roundTotal: 1,
+      gameTotal: 40,
+      calledYaniv: true,
+      lowest: false
+    }
+  ]
+  //Act
+  const actual = gameEnd(players)
+  const expected = true 
+  //Asert
+  expect(actual).toBe(expected)
 })
