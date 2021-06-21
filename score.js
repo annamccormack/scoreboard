@@ -44,9 +44,6 @@ function scorePlayers(players) {
   }
   return totals
 }
-// TODO: update gameTotal when:
-// players gametotal === 50, update gameTotal = 25
-// players gametotal === 100, update gameTotal = 50
 
 function scoreRound(players) {
   let totals = scorePlayers(players)
@@ -54,6 +51,14 @@ function scoreRound(players) {
   for (let i = 0; i < players.length; i++) {
     // update gameTotal of each player
     players[i].gameTotal += players[i].roundTotal
+
+    // players gametotal === 50, update gameTotal = 25
+    // players gametotal === 100, update gameTotal = 50
+    if (players[i].gameTotal === 100) {
+      players[i].gameTotal = 50
+    } else if (players[i].gameTotal === 50) {
+      players[i].gameTotal = 25
+    }
   }
   return totals
 }
