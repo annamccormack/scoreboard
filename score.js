@@ -1,8 +1,9 @@
 module.exports = {
   scorePlayer,
+  scorePlayers,
   calledYaniv,
   scoreLowest,
-  indexOfLowest,
+  indexesOfLowest,
   scoreRound,
   scoreGame,
   gameEnd
@@ -48,32 +49,41 @@ function scoreRound(players) {
   return totals
 }
 
-function indexOfLowest(totals) {
-  let index = 0
-  let lowest = totals[index]
-  for (var i = 1; i < totals.length; i++) {
-    if (totals[i] <= lowest) {
-      lowest = totals[i]
-      index = i
+function indexesOfLowest(totals, players) {
+  let indexes =[]
+  let lowest = Math.min.apply(Math, totals)
+  totals.forEach((item, idx) => {
+    if(item === lowest) {
+      players[idx].lowest = true
+      indexes.push(idx)
     }
-  }
-  return index;
+  })
+  
+  return indexes;
 }
 
 function scoreLowest(players, totals) {
-  // check if player who called yaniv has the lowest roundTotal
-  let lowestIndex = indexOfLowest(totals)
+  let indexes = indexesOfLowest(totals, players)
   for (let i = 0; i < players.length; i++) {
-    if (calledYaniv(players[i]) && i !== lowestIndex) {
-      players[i].roundTotal = 30
-      totals.splice(i, 1, 30)
-      // console.log('not lowest', players[i])
-    } else if (i === lowestIndex) {
-      players[lowestIndex].roundTotal = 0
-      totals.splice(i, 1, 0)
-      // console.log('lowest', players[lowestIndex])
+    // if player called yaniv &
+    if (players[i].calledYaniv) {
+      // is not lowest, total = 30
+      if (indexes.length !== 1 || !players[i].lowest) {
+        players[i].roundTotal = 30
+        totals.splice(i, 1, 30)
+      } else {
+        // is lowest, total = 0
+        players[i].roundTotal = 0
+        totals.splice(i, 1, 0)
+      }
+    } else {
+    // if player didnt call yaniv & is lowest, total = 0
+      if (players[i].lowest) {
+        players[i].roundTotal = 0
+        totals.splice(i, 1, 0)
+      }
     }
-  }
+  }  
   return totals 
 }
 
